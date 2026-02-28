@@ -3,6 +3,7 @@ import { analyzeUser, formatSong } from "./common.mjs";
 
 const userSelect = document.getElementById("user-select");
 const content = document.getElementById("content");
+
 // Populate dropdown
 getUserIDs().forEach((id) => {
   const option = document.createElement("option");
@@ -10,6 +11,7 @@ getUserIDs().forEach((id) => {
   option.textContent = `User ${id}`;
   userSelect.appendChild(option);
 });
+
 // Render question section helper
 const addSection = (title, value) => {
   if (!value) return;
@@ -17,6 +19,7 @@ const addSection = (title, value) => {
   s.innerHTML = `<h2>${title}</h2><p>${value}</p>`;
   content.appendChild(s);
 };
+
 // Render user data
 const renderUserData = (userID) => {
   const data = analyzeUser(userID);
@@ -38,7 +41,8 @@ const renderUserData = (userID) => {
   addSection(
     "6. Most listened song on Friday nights (time)",
     data.fridaySongsTime,
-  );    data.fridaySongsTime,
+  );
+
   // Longest streak
   if (data.longestStreak) {
     const s = document.createElement("section");
@@ -61,3 +65,32 @@ const renderUserData = (userID) => {
     s.appendChild(ul);
     content.appendChild(s);
   }
+
+  // Top genres
+  if (data.topGenres.length) {
+    const s = document.createElement("section");
+    s.innerHTML = "<h2>9. Top genres</h2>";
+    const ol = document.createElement("ol");
+    data.topGenres.forEach((g) => {
+      const li = document.createElement("li");
+      li.textContent = g;
+      ol.appendChild(li);
+    });
+    s.appendChild(ol);
+    content.appendChild(s);
+  }
+};
+
+// Event listener
+userSelect.addEventListener("change", () => {
+  const id = userSelect.value;
+
+  if (!id) {
+    // Return to home state
+    content.innerHTML =
+      "<p>Please select a user to view their listening analysis.</p>";
+    return;
+  }
+
+  renderUserData(id);
+});
