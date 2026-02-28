@@ -61,3 +61,29 @@ select:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
+
+/* Sections */
+section {
+  background: #ffffff;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+section p {
+  margin-bottom: 0.4rem;
+}
+
+/* Lists */
+ul,
+ol {
+  margin-top: 0.5rem;
+  margin-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
