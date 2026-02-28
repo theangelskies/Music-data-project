@@ -1,8 +1,28 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Listening Analysis</title>
+    <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.mjs"></script>
   </head>
   <body>
+    <header>
+      <h1>Music Listening Analysis</h1>
+      <label for="user-select">Select user:</label>
+      <select id="user-select">
+        <option value="">Choose a user</option>
+      </select>
+    </header>
+
+    <main id="content" role="main" aria-live="polite">
+      <!-- Dynamic content inserted here -->
+    </main>
+
+    <footer>
+      <p>Data shown is calculated dynamically from listening history.</p>
+      <p>© 2025 Angelscraper Empire</p>
+    </footer>
   </body>
 </html>
