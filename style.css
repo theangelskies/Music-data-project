@@ -18,3 +18,46 @@ body {
   padding: 2rem;
 }
 
+/* Layout */
+header,
+footer {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #334155;
+}
+
+/* Dropdown */
+label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 0.95rem;
+}
+
+select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
