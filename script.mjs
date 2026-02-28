@@ -17,3 +17,25 @@ const addSection = (title, value) => {
   s.innerHTML = `<h2>${title}</h2><p>${value}</p>`;
   content.appendChild(s);
 };
+// Render user data
+const renderUserData = (userID) => {
+  const data = analyzeUser(userID);
+  content.innerHTML = "";
+
+  if (!data) {
+    content.innerHTML = "<p>This user didn’t listen to any songs.</p>";
+    return;
+  }
+
+  addSection("1. Most listened to song (count)", data.mostSongCount);
+  addSection("2. Most listened to artist (count)", data.mostArtistCount);
+  addSection("3. Most listened to song (time)", data.mostSongTime);
+  addSection("4. Most listened to artist (time)", data.mostArtistTime);
+  addSection(
+    "5. Most listened song on Friday nights (count)",
+    data.fridaySongsCount,
+  );
+  addSection(
+    "6. Most listened song on Friday nights (time)",
+    data.fridaySongsTime,
+  );
