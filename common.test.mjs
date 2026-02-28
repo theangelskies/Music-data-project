@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import test from "node:test";
 import {
   countUsers,
@@ -29,6 +30,7 @@ test("countBy counts values correctly", () => {
   assert.equal(result.get(2), 1);
   assert.equal(result.get(3), 1);
 });
+
 // countBy empty array
 test("countBy returns empty map for empty array", () => {
   const result = countBy([], (x) => x);
@@ -186,6 +188,27 @@ test("getTopGenres works with single genre", () => {
   assert.deepEqual(result, ["Hip Hop"]);
 });
 
+/* -----------------------------
+   ANALYZE USER
+--------------------------------*/
 
+test("analyzeUser returns null for user with no listens", () => {
+  assert.equal(analyzeUser("4"), null);
+});
 
+test("analyzeUser returns valid analysis structure", () => {
+  const data = analyzeUser("1");
 
+  assert.ok(data.mostSongCount);
+  assert.ok(data.mostArtistCount);
+  assert.ok(data.longestStreak);
+  assert.ok(Array.isArray(data.everyDaySongs));
+  assert.ok(Array.isArray(data.topGenres));
+});
+
+test("analyzeUser longestStreak contains song and length", () => {
+  const data = analyzeUser("1");
+
+  assert.ok(data.longestStreak.song);
+  assert.ok(data.longestStreak.length > 0);
+});
