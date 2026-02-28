@@ -38,4 +38,12 @@ const renderUserData = (userID) => {
   addSection(
     "6. Most listened song on Friday nights (time)",
     data.fridaySongsTime,
-  );
+  );    data.fridaySongsTime,
+  // Longest streak
+  if (data.longestStreak) {
+    const s = document.createElement("section");
+    s.innerHTML = `<h2>7. Song listened most times in a row</h2>
+                   <p>${data.longestStreak.song}</p>
+                   <p>Times in a row: <strong>${data.longestStreak.length}</strong></p>`;
+    content.appendChild(s);
+  }
