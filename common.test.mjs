@@ -124,3 +124,68 @@ test("getLongestStreak finds correct song streak", () => {
   assert.equal(result.length, 3);
 });
 
+test("getLongestStreak handles single song", () => {
+  const songs = [{ title: "Solo", artist: "Artist" }];
+
+  const result = getLongestStreak(songs);
+
+  assert.equal(result.song, "Solo - Artist");
+  assert.equal(result.length, 1);
+});
+
+/* -----------------------------
+   EVERY DAY SONGS
+--------------------------------*/
+
+test("getEveryDaySongs returns songs played every day", () => {
+  const songs = [
+    { timestamp: "2024-08-01T00:00:00", title: "A", artist: "X" },
+    { timestamp: "2024-08-02T00:00:00", title: "A", artist: "X" },
+    { timestamp: "2024-08-01T00:00:00", title: "B", artist: "Y" },
+  ];
+
+  const result = getEveryDaySongs(songs);
+
+  assert.deepEqual(result, ["A - X"]);
+});
+
+test("getEveryDaySongs returns empty if none qualify", () => {
+  const songs = [
+    { timestamp: "2024-08-01T00:00:00", title: "A", artist: "X" },
+    { timestamp: "2024-08-02T00:00:00", title: "B", artist: "Y" },
+  ];
+
+  const result = getEveryDaySongs(songs);
+
+  assert.deepEqual(result, []);
+});
+
+/* -----------------------------
+   TOP GENRES
+--------------------------------*/
+
+test("getTopGenres returns correct genres sorted by popularity", () => {
+  const songs = [
+    { genre: "Pop" },
+    { genre: "Pop" },
+    { genre: "Rock" },
+    { genre: "Jazz" },
+  ];
+
+  const result = getTopGenres(songs);
+
+  assert.ok(result.includes("Pop"));
+  assert.ok(result.includes("Rock"));
+});
+
+test("getTopGenres works with single genre", () => {
+  const songs = [{ genre: "Hip Hop" }, { genre: "Hip Hop" }];
+
+  const result = getTopGenres(songs);
+
+  assert.deepEqual(result, ["Hip Hop"]);
+});
+
+
+
+
