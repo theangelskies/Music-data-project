@@ -10,3 +10,7 @@ export const countBy = (arr, keyFn) => {
 
   return map;
 };
+export const maxByValue = (map) => {
+  if (map.size === 0) return undefined;
+
+    }
