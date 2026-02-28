@@ -18,10 +18,3 @@ body {
   padding: 2rem;
 }
 
-/* Layout */
-header,
-footer {
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
-}
-
