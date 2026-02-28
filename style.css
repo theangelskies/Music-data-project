@@ -25,7 +25,6 @@ footer {
   margin: 0 auto 2rem auto;
 }
 
-
 main {
   max-width: 800px;
   margin: 0 auto;
@@ -87,3 +86,10 @@ li {
   margin-bottom: 0.3rem;
 }
 
+/* Footer */
+footer {
+  font-size: 0.85rem;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
