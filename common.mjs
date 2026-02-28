@@ -93,6 +93,43 @@ export const getEveryDaySongs = (songs) => {
 export const getTopGenres = (songs, n = 3) => {
   const map = countBy(songs, (s) => s.genre);
 
+  
+
+
+// ----------------------
+// Songs listened every day
+// ----------------------
+
+export const getEveryDaySongs = (songs) => {
+  if (!songs.length) return [];
+
+  const days = [...new Set(songs.map((s) => s.timestamp.split("T")[0]))];
+
+  const map = new Map();
+
+  songs.forEach((s) => {
+    const name = formatSong(s);
+    const day = s.timestamp.split("T")[0];
+
+    if (!map.has(name)) {
+      map.set(name, new Set());
+    }
+
+    map.get(name).add(day);
+  });
+
+  return [...map.entries()]
+    .filter(([song, set]) => set.size === days.length)
+    .map(([song]) => song);
+};
+
+// ----------------------
+// Top Genres
+// ----------------------
+
+export const getTopGenres = (songs, n = 3) => {
+  const map = countBy(songs, (s) => s.genre);
+
   return [...map.entries()]
     .sort((a, b) => b[1] - a[1])
     .map(([genre]) => genre)
