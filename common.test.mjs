@@ -64,6 +64,63 @@ test("formatSong works with different artists", () => {
   assert.equal(formatSong(song), "Blinding Lights - The Weeknd");
 });
 
+/* -----------------------------
+   FRIDAY NIGHT FILTER
+--------------------------------*/
 
+test("filterFridayNight returns songs played Friday evening", () => {
+  const songs = [
+    {
+      timestamp: "2024-08-02T18:30:00",
+      title: "A",
+      artist: "X",
+      duration_seconds: 200,
+    },
+    {
+      timestamp: "2024-08-02T15:00:00",
+      title: "B",
+      artist: "Y",
+      duration_seconds: 200,
+    },
+  ];
 
+  const result = filterFridayNight(songs);
+
+  assert.equal(result.length, 1);
+  assert.equal(result[0].title, "A");
+});
+
+test("filterFridayNight returns empty if no Friday evening songs", () => {
+  const songs = [
+    {
+      timestamp: "2024-08-01T20:00:00",
+      title: "A",
+      artist: "X",
+      duration_seconds: 200,
+    },
+  ];
+
+  const result = filterFridayNight(songs);
+
+  assert.equal(result.length, 0);
+});
+
+/* -----------------------------
+   LONGEST STREAK
+--------------------------------*/
+
+test("getLongestStreak finds correct song streak", () => {
+  const songs = [
+    { title: "A", artist: "X" },
+    { title: "A", artist: "X" },
+    { title: "B", artist: "Y" },
+    { title: "B", artist: "Y" },
+    { title: "B", artist: "Y" },
+  ];
+
+  const result = getLongestStreak(songs);
+
+  assert.equal(result.song, "B - Y");
+  assert.equal(result.length, 3);
+});
 
