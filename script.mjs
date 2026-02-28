@@ -47,3 +47,17 @@ const renderUserData = (userID) => {
                    <p>Times in a row: <strong>${data.longestStreak.length}</strong></p>`;
     content.appendChild(s);
   }
+
+  // Every day songs
+  if (data.everyDaySongs.length) {
+    const s = document.createElement("section");
+    s.innerHTML = "<h2>8. Songs listened to every day</h2>";
+    const ul = document.createElement("ul");
+    data.everyDaySongs.forEach((song) => {
+      const li = document.createElement("li");
+      li.textContent = song;
+      ul.appendChild(li);
+    });
+    s.appendChild(ul);
+    content.appendChild(s);
+  }
