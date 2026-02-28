@@ -5,4 +5,23 @@
   padding: 0;
 }
 
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background-color: #f7f9fc;
+  color: #1f2933;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+/* Layout */
+header,
+footer {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
 
