@@ -1,0 +1,95 @@
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background-color: #f7f9fc;
+  color: #1f2933;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+/* Layout */
+header,
+footer {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #334155;
+}
+
+/* Dropdown */
+label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 0.95rem;
+}
+
+select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Sections */
+section {
+  background: #ffffff;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+section p {
+  margin-bottom: 0.4rem;
+}
+
+/* Lists */
+ul,
+ol {
+  margin-top: 0.5rem;
+  margin-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+/* Footer */
+footer {
+  font-size: 0.85rem;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
