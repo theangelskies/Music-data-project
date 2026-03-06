@@ -43,12 +43,14 @@ export const formatSong = (song) => `${song.title} - ${song.artist}`;
 export const filterFridayNight = (songs) =>
   songs.filter((song) => {
     const date = new Date(s.timestamp);
-    const day = date.getDay(); // 5 = Friday, 6 = Saturday
+    const fridayDayNumber = 5;
+    const saturdayDayNumber = 6;
+    const day = date.getDay();
     const hour = date.getHours();
 
     return (
-      (day === 5 && hour >= 17) || // Friday evening
-      (day === 6 && hour < 4) // Saturday early morning
+      (day === fridayDayNumber && hour >= 17) ||
+      (day === saturdayDayNumber && hour < 4)
     );
   });
 
