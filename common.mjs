@@ -30,7 +30,7 @@ export const maxByValue = (map) => {
 export const formatSong = (song) => `${song.title} - ${song.artist}`;
 
 export const filterFridayNight = (songs) =>
-  songs.filter((s) => {
+  songs.filter(s => {
     const date = new Date(s.timestamp);
     const day = date.getDay();
     const hour = date.getHours();
