@@ -12,16 +12,10 @@ import {
   analyzeUser,
 } from "./common.mjs";
 
-/* -----------------------------
-   BASIC HELPER FUNCTION TESTS
---------------------------------*/
-
-// countUsers
 test("countUsers returns correct number of users", () => {
   assert.equal(countUsers(), 4);
 });
 
-// countBy basic functionality
 test("countBy counts values correctly", () => {
   const arr = [{ a: 1 }, { a: 2 }, { a: 1 }, { a: 3 }];
   const result = countBy(arr, (x) => x.a);
@@ -31,13 +25,11 @@ test("countBy counts values correctly", () => {
   assert.equal(result.get(3), 1);
 });
 
-// countBy empty array
 test("countBy returns empty map for empty array", () => {
   const result = countBy([], (x) => x);
   assert.equal(result.size, 0);
 });
 
-// maxByValue
 test("maxByValue returns key with highest value", () => {
   const map = new Map([
     ["x", 5],
@@ -48,27 +40,20 @@ test("maxByValue returns key with highest value", () => {
   assert.equal(maxByValue(map), "y");
 });
 
-// maxByValue single entry
 test("maxByValue works with single entry", () => {
   const map = new Map([["only", 1]]);
   assert.equal(maxByValue(map), "only");
 });
 
-// formatSong
 test("formatSong formats correctly", () => {
   const song = { title: "Hello", artist: "Adele" };
   assert.equal(formatSong(song), "Hello - Adele");
 });
 
-// formatSong different values
 test("formatSong works with different artists", () => {
   const song = { title: "Blinding Lights", artist: "The Weeknd" };
   assert.equal(formatSong(song), "Blinding Lights - The Weeknd");
 });
-
-/* -----------------------------
-   FRIDAY NIGHT FILTER
---------------------------------*/
 
 test("filterFridayNight returns songs played Friday evening", () => {
   const songs = [
@@ -107,10 +92,6 @@ test("filterFridayNight returns empty if no Friday evening songs", () => {
   assert.equal(result.length, 0);
 });
 
-/* -----------------------------
-   LONGEST STREAK
---------------------------------*/
-
 test("getLongestStreak finds correct song streak", () => {
   const songs = [
     { title: "A", artist: "X" },
@@ -135,10 +116,6 @@ test("getLongestStreak handles single song", () => {
   assert.equal(result.length, 1);
 });
 
-/* -----------------------------
-   EVERY DAY SONGS
---------------------------------*/
-
 test("getEveryDaySongs returns songs played every day", () => {
   const songs = [
     { timestamp: "2024-08-01T00:00:00", title: "A", artist: "X" },
@@ -162,10 +139,6 @@ test("getEveryDaySongs returns empty if none qualify", () => {
   assert.deepEqual(result, []);
 });
 
-/* -----------------------------
-   TOP GENRES
---------------------------------*/
-
 test("getTopGenres returns correct genres sorted by popularity", () => {
   const songs = [
     { genre: "Pop" },
@@ -187,10 +160,6 @@ test("getTopGenres works with single genre", () => {
 
   assert.deepEqual(result, ["Hip Hop"]);
 });
-
-/* -----------------------------
-   ANALYZE USER
---------------------------------*/
 
 test("analyzeUser returns null for user with no listens", () => {
   assert.equal(analyzeUser("4"), null);

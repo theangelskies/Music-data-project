@@ -1,19 +1,13 @@
 import { getUserIDs, getListenEvents, getSong } from "./data.mjs";
 
-// ----------------------
-// Basic Helpers
-// ----------------------
-
 export const countUsers = () => getUserIDs().length;
 
 export const countBy = (arr, keyFn) => {
   const map = new Map();
-
   arr.forEach((item) => {
     const key = keyFn(item);
     map.set(key, (map.get(key) || 0) + 1);
   });
-
   return map;
 };
 
@@ -35,61 +29,63 @@ export const maxByValue = (map) => {
 
 export const formatSong = (song) => `${song.title} - ${song.artist}`;
 
-// ----------------------
-// Friday Night Filtering
-// Friday 17:00 → Saturday 04:00
-// ----------------------
-
 export const filterFridayNight = (songs) =>
-  songs.filter((song) => {
+  songs.filter((s) => {
     const date = new Date(s.timestamp);
-    const fridayDayNumber = 5;
-    const saturdayDayNumber = 6;
     const day = date.getDay();
     const hour = date.getHours();
-
-    return (
-      (day === fridayDayNumber && hour >= 17) ||
-      (day === saturdayDayNumber && hour < 4)
-    );
+    return (day === 5 && hour >= 17) || (day === 6 && hour < 4);
   });
-
-// ----------------------
-// Longest Consecutive Streak
-// ----------------------
 
 export const getLongestStreak = (songs) => {
   if (!songs.length) return null;
 
-  let longest = { song: "", length: 0 };
-  let currentSong = null;
-  let currentCount = 0;
+  const getKey = (s) => (s.song_id ? s.song_id : `${s.title}|${s.artist}`);
 
-  songs.forEach((s) => {
-    const name = formatSong(s);
+  let longestKey = getKey(songs[0]);
+  let longestLength = 1;
 
-    if (name === currentSong) {
-      currentCount++;
+  let currentKey = longestKey;
+  let currentLength = 1;
+
+  for (let i = 1; i < songs.length; i++) {
+    const key = getKey(songs[i]);
+
+    if (key === currentKey) {
+      currentLength++;
     } else {
-      if (currentCount > longest.length) {
-        longest = { song: currentSong, length: currentCount };
+      if (currentLength > longestLength) {
+        longestLength = currentLength;
+        longestKey = currentKey;
       }
-
-      currentSong = name;
-      currentCount = 1;
+      currentKey = key;
+      currentLength = 1;
     }
-  });
-
-  if (currentCount > longest.length) {
-    longest = { song: currentSong, length: currentCount };
   }
 
-  return longest;
-};
+  if (currentLength > longestLength) {
+    longestLength = currentLength;
+    longestKey = currentKey;
+  }
 
-// ----------------------
-// Songs listened every day
-// ----------------------
+  let title;
+  let artist;
+
+  if (songs[0].song_id) {
+    const songData = getSong(longestKey);
+    title = songData.title;
+    artist = songData.artist;
+  } else {
+    const parts = longestKey.split("|");
+    title = parts[0];
+    artist = parts[1];
+  }
+
+  return {
+    song: `${title} - ${artist}`,
+    length: longestLength,
+  };
+};
 
 export const getEveryDaySongs = (songs) => {
   if (!songs.length) return [];
@@ -110,13 +106,9 @@ export const getEveryDaySongs = (songs) => {
   });
 
   return [...map.entries()]
-    .filter(([song, set]) => set.size === days.length)
+    .filter(([, set]) => set.size === days.length)
     .map(([song]) => song);
 };
-
-// ----------------------
-// Top Genres
-// ----------------------
 
 export const getTopGenres = (songs, n = 3) => {
   const map = countBy(songs, (s) => s.genre);
@@ -127,29 +119,19 @@ export const getTopGenres = (songs, n = 3) => {
     .slice(0, n);
 };
 
-// ----------------------
-// Main Analysis
-// ----------------------
-
 export const analyzeUser = (userID) => {
   const events = getListenEvents(userID);
 
-  if (!events || events.length === 0) {
-    return null;
-  }
+  if (!events || events.length === 0) return null;
 
   const songs = events.map((e) => ({
     ...e,
     ...getSong(e.song_id),
   }));
 
-  // Most listened song (count)
   const mostSongCount = maxByValue(countBy(songs, (s) => formatSong(s)));
-
-  // Most listened artist (count)
   const mostArtistCount = maxByValue(countBy(songs, (s) => s.artist));
 
-  // Most listened song (time)
   const mostSongTime = maxByValue(
     songs.reduce((map, s) => {
       const name = formatSong(s);
@@ -158,7 +140,6 @@ export const analyzeUser = (userID) => {
     }, new Map()),
   );
 
-  // Most listened artist (time)
   const mostArtistTime = maxByValue(
     songs.reduce((map, s) => {
       map.set(s.artist, (map.get(s.artist) || 0) + s.duration_seconds);
@@ -166,7 +147,6 @@ export const analyzeUser = (userID) => {
     }, new Map()),
   );
 
-  // Friday night songs
   const fridaySongs = filterFridayNight(songs);
 
   const fridaySongsCount = fridaySongs.length
@@ -183,13 +163,8 @@ export const analyzeUser = (userID) => {
       )
     : null;
 
-  // Longest streak
   const longestStreak = getLongestStreak(songs);
-
-  // Songs listened every day
   const everyDaySongs = getEveryDaySongs(songs);
-
-  // Top genres
   const topGenres = getTopGenres(songs);
 
   return {
