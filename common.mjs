@@ -41,7 +41,7 @@ export const formatSong = (song) => `${song.title} - ${song.artist}`;
 // ----------------------
 
 export const filterFridayNight = (songs) =>
-  songs.filter((s) => {
+  songs.filter((song) => {
     const date = new Date(s.timestamp);
     const day = date.getDay(); // 5 = Friday, 6 = Saturday
     const hour = date.getHours();
