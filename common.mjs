@@ -40,57 +40,59 @@ export const filterFridayNight = (songs) =>
 export const getLongestStreak = (songs) => {
   if (!songs.length) return null;
 
-  const getKey = (s) => (s.song_id ? s.song_id : `${s.title}|${s.artist}`);
+  let longest = { song: "", length: 0 };
+  let currentSong = null;
+  let currentCount = 0;
 
-  let longestKey = getKey(songs[0]);
-  let longestLength = 1;
-
-  let currentKey = longestKey;
-  let currentLength = 1;
-
-  for (let i = 1; i < songs.length; i++) {
-    const key = getKey(songs[i]);
-
-    if (key === currentKey) {
-      currentLength++;
-    } else {
-      if (currentLength > longestLength) {
-        longestLength = currentLength;
-        longestKey = currentKey;
-      }
-      currentKey = key;
-      currentLength = 1;
+  const updateLongest = () => {
+    if (currentCount > longest.length) {
+      longest = { song: currentSong, length: currentCount };
     }
-  }
+  };
 
-  if (currentLength > longestLength) {
-    longestLength = currentLength;
-    longestKey = currentKey;
-  }
+  songs.forEach((s) => {
+    const id = s.song_id ?? `${s.title}|${s.artist}`;
+
+    if (id === currentSong) {
+      currentCount++;
+    } else {
+      updateLongest();
+      currentSong = id;
+      currentCount = 1;
+    }
+  });
+
+  updateLongest();
 
   let title;
   let artist;
 
   if (songs[0].song_id) {
-    const songData = getSong(longestKey);
+    const songData = getSong(longest.song);
     title = songData.title;
     artist = songData.artist;
   } else {
-    const parts = longestKey.split("|");
-    title = parts[0];
-    artist = parts[1];
+    [title, artist] = longest.song.split("|");
   }
 
   return {
     song: `${title} - ${artist}`,
-    length: longestLength,
+    length: longest.length,
   };
 };
 
 export const getEveryDaySongs = (songs) => {
   if (!songs.length) return [];
 
-  const days = [...new Set(songs.map((s) => s.timestamp.split("T")[0]))];
+  const dates = songs.map((s) => new Date(s.timestamp));
+  const minDate = new Date(Math.min(...dates));
+  const maxDate = new Date(Math.max(...dates));
+
+  const allDays = new Set();
+
+  for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
+    allDays.add(d.toISOString().split("T")[0]);
+  }
 
   const map = new Map();
 
@@ -98,15 +100,12 @@ export const getEveryDaySongs = (songs) => {
     const name = formatSong(s);
     const day = s.timestamp.split("T")[0];
 
-    if (!map.has(name)) {
-      map.set(name, new Set());
-    }
-
+    if (!map.has(name)) map.set(name, new Set());
     map.get(name).add(day);
   });
 
   return [...map.entries()]
-    .filter(([, set]) => set.size === days.length)
+    .filter(([, set]) => set.size === allDays.size)
     .map(([song]) => song);
 };
 
